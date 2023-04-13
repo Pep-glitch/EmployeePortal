@@ -12,10 +12,10 @@
             <input type="text" name="firstname" placeholder ="firstname" id = "" class = "">
             <input type="text" name="lastname" placeholder ="lastname" id = "" class = "">
             <input type="date" name="dateOfBirth" placeholder ="DOB" id = "" class = "">
-            <input type="checkbox" name="gender" placeholder ="" id = "malegender" class = "">
-            <label for="malegender">Male</label>
-            <input type="checkbox" name="gender" placeholder ="" id = "femalegender" class = "">
-            <label for="femalegender">Female</label>
+            <input type="radio" name="gender" placeholder ="" id = "male" class = "" value="Male" checked>
+            <label for="male">Male</label>
+            <input type="radio" name="gender" placeholder ="" id = "female" class = "" value="Female">
+            <label for="female">Female</label>
             <br>
             <input type="email" name="email" placeholder ="email" id = "" class = "">
             <input type="text" name="height" placeholder ="height" id = "" class = "">
