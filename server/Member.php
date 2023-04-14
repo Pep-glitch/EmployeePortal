@@ -20,9 +20,9 @@ class Member
    } 
    function process_login($email,$password)
    {
-     $query = "SELECT * FROM employee_mgt_sys.employee WHERE emp_id =?";
+     $query = "SELECT email, pass_word FROM employee_mgt_sys.employee WHERE email =? OR pass_word = ?";
      $parameter_type = "ss";
-     $parameter_array = array($email);
+     $parameter_array = array($email,$password);
      $member_result = $this->ds->select($query, $parameter_type,$parameter_array);
      if(! empty($member_result))
      {
