@@ -1,6 +1,10 @@
 <?php
     include '../includes/header.php';
 ?>
+<body>
+    <header>
+        
+    </header>
     <form action="../server/update_password.php" method="POST">
         <div>
             <input type="password" placeholder="Enter new password">

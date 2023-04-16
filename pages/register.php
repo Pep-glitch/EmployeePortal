@@ -5,6 +5,10 @@
 <?php
     include  '../includes\header.php';
 ?>
+<body>
+    <header>
+        
+    </header>
 
 <div class="register_form">
     <form action="../server/send_register_data.php" class="form-outline mb-4" method = "POST">
