@@ -13,18 +13,34 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 try
 {
-    $sql = "SELECT email,pass_word FROM employee_mgt_sys.employee WHERE (BINARY email= '$email') AND BINARY  pass_word ='$password' ";
+    $sql = "SELECT email,pass_word,user_role FROM employee_mgt_sys.employee WHERE (BINARY email= '$email') AND BINARY  pass_word ='$password' ";
     $result = mysqli_query($conn,$sql);
     if(mysqli_num_rows($result)>0)
     {
-        echo"Inside If clause";
         session_start();
         $row = mysqli_fetch_assoc($result);
-      #  $_SESSION['id']=$row['id'];
+        $_SESSION['id']=$row['id'];
+        echo $row['id'];
         $_SESSION['email']=$row['email'];
         $_SESSION['logged_in']=true;
-       # $_SESSION['permission']=$row['permission'];
+        $_SESSION['user_role']=$row['user_role'];
+        echo $row['user_role'];
+       if (strcmp($row['user_role'],'Admin')==0) {
+        # For Admin Login, Admin Dashboard to be Rendered
+        header("location:../pages/admin_dashboard.php");
+       } 
+       elseif(strcmp($row['user_role'],'Manager')==0)
+       {
+        #Manager Login, Manager Dashboard to be rendered
+        header("location:../pages/manager_dashboard.php");
+       }
+       else {
+        # Ordinary Employee Login, Employee dashboard to be Rendered
         header("location:../pages/employee_dashboard.php");
+        
+       }
+       
+       
         echo"After IF";
     }
     else
@@ -43,8 +59,12 @@ catch(\Exception $e)
 {
     echo $e->getMessage();
 }
-/*
-function  get_username()
+/*function  get_username()
+{   
+    return $row['emp_name'];
+}
+
+function  get_username($mail,$pass)
 {
     $servername = 'localhost';
     $username = 'root';
@@ -52,12 +72,11 @@ function  get_username()
     $dbname ='employee_mgt_sys';
     $conn = mysqli_connect($servername, $username, $dbpassword, $dbname);
     echo"connectd";
-        $email =$_POST['email'];
+        $email =$mail;
         $sql = "SELECT emp_name FROM employee_mgt_sys.employee WHERE BINARY email= '$email'";
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($result);
         echo $row['emp_name'];
-        return ;
     }
     /*
     if(! empty($_POST['login']))

@@ -2,7 +2,7 @@
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
         require_once 'connect.php';
-        $sql = "INSERT INTO employee_mgt_sys.employee(emp_name,lastname,emp_id,emp_contact,date_of_birth,employment_day,emp_city,emp_state,dept_id,gender,job_title,height,place_of_birth,marital_status,office,department_name,education,major,graduation_school,email,pass_word,photo) VALUES(:firstname,:lastname,:employee_id,:contact,:dateOfBirth,:dateOfEmployement,:city,:emp_state,:deptmnt_id,:gender,:job_title,:height,:placeOfBirth,:marital_status,:office,:department,:education,:major,:graduation_school,:email,:pass_word,:photo_file)";
+        $sql = "INSERT INTO employee_mgt_sys.employee(emp_name,lastname,emp_id,emp_contact,date_of_birth,employment_day,emp_city,emp_state,dept_id,gender,job_title,height,place_of_birth,marital_status,user_role,department_name,education,major,graduation_school,email,pass_word,photo) VALUES(:firstname,:lastname,:employee_id,:contact,:dateOfBirth,:dateOfEmployement,:city,:emp_state,:deptmnt_id,:gender,:job_title,:height,:placeOfBirth,:marital_status,:user_role,:department,:education,:major,:graduation_school,:email,:pass_word,:photo_file)";
 
         $res = $pdo->prepare($sql);
         $res->bindParam(':firstname',$_REQUEST['firstname']);
@@ -19,7 +19,7 @@
         $res->bindParam(':height',$_REQUEST['height']);
         $res->bindParam(':placeOfBirth',$_REQUEST['placeOfBirth']);
         $res->bindParam(':marital_status',$_REQUEST['marital_status']);
-        $res->bindParam(':office',$_REQUEST['office']);
+        $res->bindParam(':user_role',$_REQUEST['user_role']);
         $res->bindParam(':department',$_REQUEST['department']);
         $res->bindParam(':education',$_REQUEST['education']);
         $res->bindParam(':major',$_REQUEST['major']);
