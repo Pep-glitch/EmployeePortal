@@ -1,7 +1,16 @@
 <?php
     include '../includes/header.php';
+    session_start();
+    #$sessionID = $_SESSION['id'];
+    $servername = 'localhost';
+    $username = 'root';
+    $dbpassword ='';
+    $dbname ='employee_mgt_sys';
+    $conn = mysqli_connect($servername, $username, $dbpassword, $dbname);
+    $name = $_SESSION['name'];
+    
 ?>
-<body id="page-top">
+ <body id="page-top">
     <div class="" id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -44,10 +53,43 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Ongoing Projects:</h6>
-                        <a class="collapse-item" href="#">Project One</a>
-                        <a class="collapse-item" href="#">Project Two</a>
-                        <a class="collapse-item" href="#">Project Three</a>
-                        <a class="collapse-item" href="#">Project Four</a>
+                        <?php
+                        $projects_selection = "SELECT * FROM employee_mgt_sys.projects";
+                        $projects_result =mysqli_query($conn,$projects_selection);
+                        $project_row =mysqli_fetch_assoc($projects_result);
+                        if(mysqli_num_rows($projects_result)>0)
+                        {
+                           while($project_row =mysqli_fetch_assoc($projects_result))
+                           {
+                            ?>
+                            <a onclick="hide()" class="bg-white py-2 collapse-item" href="" id="project-btn"><?php echo $project_row['title'];
+                            ?>
+                            </a>
+                            <?php
+                           } 
+                        }
+                        ?>
+                       
+                    </div>
+                </div>
+            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Pages</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Login Screens:</h6>
+                        <a class="collapse-item" href="../pages/login.php">Login</a>
+                        <a class="collapse-item" href="../pages/register.php">Register</a>
+                        <a class="collapse-item" href="../pages/forgot_password.php">Forgot Password</a>
+                        <div class="collapse-divider"></div>
+                        <h6 class="collapse-header">Other Pages:</h6>
+                        <a class="collapse-item" href="404.html">404 Page</a>
+                        <a class="collapse-item" href="blank.html">Blank Page</a>
                     </div>
                 </div>
             </li>
@@ -84,6 +126,11 @@
                 <a class="nav-link" href="tables.html">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Duties</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Employees</span></a>
             </li>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
@@ -248,9 +295,9 @@
                          <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php/* require("../server/user_authentication.php");get_username();*/?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $name;?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="svg/undraw_profile.svg">
                             </a>
                              <!-- Dropdown - User Information -->
                              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -270,22 +317,82 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Logout <?php session_unset(); ?>
                                 </a>
                             </div>
                         </li>
                     </ul>
                 </nav>
                 <!-- End of Topbar -->
-                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                                <!-- Begin Page Content -->
+                                <div class="container-fluid">
 
-                <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
-                             <!--Admin Content -->
-                             <h3>Admin Content</h3>
-                </div>
-                <!-- /.container-fluid -->
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Employees</h1>
+<p class="mb-4">This is a list of all Employees <!--<a target="_blank"
+        href="https://datatables.net">official DataTables documentation</a>.--></p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Employees Table</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>City</th>
+                        <th>Age</th>
+                        <th>Start date</th>
+                        <th>Department</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <?php
+                          $list_sql = "SELECT * FROM employee_mgt_sys.employee";  
+                          $list_result = mysqli_query($conn,$list_sql);
+                          $list_row = mysqli_fetch_assoc($list_result);
+                        while($list_row = mysqli_fetch_assoc($list_result))
+                        {
+                            ?>
+                            <td><?php echo $list_row['emp_name'].' '.$list_row['lastname']; ?></td>
+                            <td><?php echo $list_row['job_title']; ?></td>
+                            <td><?php echo $list_row['emp_city']; ?></td>
+                            <td><?php echo $list_row['date_of_birth']; ?></td>
+                            <td><?php echo $list_row['employment_day']; ?></td>
+                            <td><?php echo $list_row['department_name']; ?></td>
+                            </tr>
+                            <?php
+                
+                        }
+                    ?>
+                   
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Office</th>
+                        <th>Age</th>
+                        <th>Start date</th>
+                        <th>Salary</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
 
              </div>
                 <!-- End of Main Content -->
@@ -312,7 +419,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="../pages/login.php">Logout</a>
                 </div>
             </div>
         </div>

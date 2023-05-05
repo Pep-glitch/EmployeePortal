@@ -127,12 +127,12 @@
                                               <input type="password" name = "pass_word" placeholder = "password" id ="" class="form-control form-control-user">
                                         </div>
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                               <input type="text" name="employee_id" class="form-control form-control-user">
+                                               <input type="text" name="employee_id" class="form-control form-control-user" placeholder="employeID" >
                                         </div>
                                     </div> 
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input type="text" name="deptmnt_id" class="form-control form-control-user" >
+                                              <input type="text" name="deptmnt_id" class="form-control form-control-user" placeholder="repeat password" >
                                         </div>
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                               <input type="submit" name ="submit" value = "Register Account" id = "" class="btn btn-primary btn-user btn-block" >
@@ -140,6 +140,9 @@
                                     Register Account
                                 </a>-->
                                         </div>
+                                        <div class="text-center">
+                                        <a class="small" href="login.php">Already a user? login</a>
+                                    </div>
                                     </div>       
                                 </div>
                             </form>
