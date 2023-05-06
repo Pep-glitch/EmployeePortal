@@ -1,16 +1,14 @@
 <?php
-    include '../includes/header.php';
-    session_start();
-    #$sessionID = $_SESSION['id'];
-    $servername = 'localhost';
-    $username = 'root';
-    $dbpassword ='';
-    $dbname ='employee_mgt_sys';
-    $conn = mysqli_connect($servername, $username, $dbpassword, $dbname);
-    $name = $_SESSION['name'];
-    
+include '../includes/header.php';
+session_start();
+$servername = 'localhost';
+$username = 'root';
+$dbpassword ='';
+$dbname ='employee_mgt_sys';
+$conn = mysqli_connect($servername, $username, $dbpassword, $dbname);
 ?>
- <body id="page-top">
+
+     <body id="page-top">
     <div class="" id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
@@ -25,11 +23,13 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
+            <!--
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
                 Interface
             </div>
-            <!--<li class="nav-item">
+            
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
@@ -38,61 +38,36 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Teams List:</h6>
-                        <a class="collapse-item" href="#">Team One</a>
-                        <a class="collapse-item" href="#">Team Two</a>
+                        <a class="collapse-item" href="#">Alpha Team</a>
+                        <a class="collapse-item" href="#">Beta Team</a>
                     </div>
                 </div>
             </li>-->
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
-                    <span>Projects</span>
+                     <span>Projects</span>-
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Ongoing Projects:</h6>
                         <?php
-                        $projects_selection = "SELECT * FROM employee_mgt_sys.projects";
-                        $projects_result =mysqli_query($conn,$projects_selection);
-                        $project_row =mysqli_fetch_assoc($projects_result);
-                        if(mysqli_num_rows($projects_result)>0)
-                        {
-                           while($project_row =mysqli_fetch_assoc($projects_result))
-                           {
-                            ?>
-                            <a onclick="hide()" class="bg-white py-2 collapse-item" href="" id="project-btn"><?php echo $project_row['title'];
-                            ?>
-                            </a>
-                            <?php
-                           } 
-                        }
+                            $testID = $_SESSION['id'];
+                            $sql = "SELECT * FROM employee_mgt_sys.project_members pm JOIN employee_mgt_sys.projects p WHERE pm.projectID = p.projectID AND emp_id= '$testID' ";
+                            $result = mysqli_query($conn,$sql);
+                            $row = mysqli_fetch_assoc($result);
+                            while($row =mysqli_fetch_assoc($result))
+                            {
+                                ?>
+                                    <a class="collapse-item" href="#"><?php echo $row['title'] ?></a>
+                                <?php
+                            }
                         ?>
-                       
                     </div>
                 </div>
-            </li>
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Admin Panel</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Admin</h6>
-                        <!--<a class="collapse-item" href="../pages/login.php">Login</a>-->
-                        <a class="collapse-item" href="../pages/register.php">Register Employee</a>
-                        <!--<a class="collapse-item" href="../pages/forgot_password.php">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>-->
-                    </div>
-                </div>
-            </li>
+            </li>-->
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
                 Addons
@@ -107,9 +82,9 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Account Details:</h6>
-                        <a class="collapse-item" href="admin.php">Personal Information</a>
-                        <!--<a class="collapse-item" href="register.html">Education</a>-
-                        <a class="collapse-item" href="forgot-password.html">Professional Background</a>
+                        <a class="collapse-item" href="../pages/person.php">Personal Information</a>
+                       <!-- <a class="collapse-item" href="#">Account Settings</a>
+                        <a class="collapse-item" href="#">Career Development</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">more:</h6>
                         <a class="collapse-item" href="404.html">404 Page</a>
@@ -127,16 +102,11 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Duties</span></a>
             </li>-->
-            <li class="nav-item active">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Employees</span></a>
-            </li>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-            
+            <!--<li><button class="" id="" name=""><a href="#"></a>Sign out</button></li>-->
         </ul>
         <div id="content-wrapper" class="d-flex flex-column">
            <div id="content">
@@ -157,8 +127,7 @@
                         </div>
                     </form>-->
                     <ul class="navbar-nav ml-auto">
-                        <!--
-                    <li class="nav-item dropdown no-arrow d-sm-none">
+                   <!-- <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
@@ -183,7 +152,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
-                                 Counter - Alerts 
+                                Counter - Alerts 
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -227,8 +196,7 @@
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
                         </li>-->
-                        <!--
-                        <li class="nav-item dropdown no-arrow mx-1">
+                       <!-- <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
@@ -297,9 +265,9 @@
                          <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $name;?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="svg/undraw_profile.svg">
+                                    src="img/undraw_profile.svg">
                             </a>
                              <!-- Dropdown - User Information -->
                              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -317,7 +285,7 @@
                                     Activity Log
                                 </a>-->
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../pages/login.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -326,156 +294,117 @@
                     </ul>
                 </nav>
                 <!-- End of Topbar -->
-                                <!-- Begin Page Content -->
-              <!-- <div class="container-fluid">-->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
 
-               
-<div class="container">
-    <div class="card o-hidden border-0 shadow-lg my-5">
-        <div class="card-body p-0">
-            <!-- Nested Row within Card Body -->
-            <div class="row">
-                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-                <div class="col-lg-7">
-                    <div class="p-5">
-                        <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Register Employee</h1>
-                        </div>
-                        <form onsubmit="return formValidation()" action="../server/send_register_data.php" class="user" method = "POST">
-                                <div class="form-group">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <label for="photofile">Photo</label>
-                                                <input type="file" name="photo_file" placeholder ="photo" id ="photofile" class = "" oninput=""><div></div>
-                                        </div>
-                                    <div class="form-group row">
-                                        <div class="form-group row">
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input oninput="validateFirstname()" type="text" name="firstname" placeholder ="firstname" id = "firstnameID"   class = "form-control form-control-user"required>
-                                                <div id="firstnameError" style="color: red; font-size:10px"></div>
-                                            </div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input oninput="validateLastname()" type="text" name="lastname" placeholder ="lastname" id = "lastnameID" class = "form-control form-control-user" required>
-                                                <div id="lastnameError" style="color: red; font-size:10px"></div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="date" name="dateOfBirth" placeholder ="DOB" id = "" class = "form-control form-control-user" required>
-                                            </div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input oninput="validateBirth()" type="text" name="placeOfBirth" placeholder ="place of birth" id = "birthID"   class = "form-control form-control-user" required><div id="birthError" style="color: red; font-size:10px"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="radio" name="gender" placeholder ="" id = "male" class = "" value="Male" checked>
-                                                <label for="male">Male</label>
-                                                <input type="radio" name="gender" placeholder ="" id = "female" class = "" value="Female">
-                                                <label for="female">Female</label>
-                                                <br>
-                                            </div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0" >
-                                                 <input  type="text" name="height" placeholder ="height" id = "heightID" class = "form-control form-control-user" required><div id="heightError"></div>
-                                            </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                             <input oninput="validateEmail()" type="email" name="email" placeholder ="email" id = "emailID" class ="form-control form-control-user" required><div id="emailError" style="color: red; font-size:10px"></div>
-                                        </div>
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                             <input oninput="validateStatus()" type="text" name="marital_status" placeholder ="marital-status" id = "statusID" class = "form-control form-control-user" required><div id="statusError" style="color: red; font-size:10px"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input oninput="validateState()" type="text" name="emp_state" id="stateID" placeholder="state" class = "form-control form-control-user" required><div id="stateError" style="color: red; font-size:10px"></div>
-                                        </div>
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input oninput="validateCity()" type="text" name="city" id="cityID" placeholder="city" class = "form-control form-control-user" required><div id="cityError" style="color: red; font-size:10px"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input  type="text" name="address" placeholder ="address" id ="addressID" class = "form-control form-control-user" required><div id="addressError"></div>
-                                        </div>
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                             <input oninput="" type="text" name="contact" placeholder ="mobile number" id= "contactID" class = "form-control form-control-user" required><div id="contactError"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input oninput="validateJob()" type="text" name="job_title" placeholder ="job title" id = "jobID" class = "form-control form-control-user" required><div id="jobError" style="color: red; font-size:10px"></div>
-                                        </div>
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input oninput="validateRole()" type="text" name="user_role" placeholder ="Role" id="roleID" class = "form-control form-control-user" required><div id="roleError" style="color: red; font-size:10px"></div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input type="text" name="department" placeholder ="department" id= "deptNameID" class = "form-control form-control-user" required><div id="deptNameError"></div>
-                                        </div>
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input type="date" id="" name="dateOfEmployement" class="form-control form-control-user" placeholder="Start Date" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input oninput="validateEducation()" type="text" name="education" placeholder ="education" id = "educationID" class = "form-control form-control-user" required><div id="educationError" style="color: red; font-size:10px"></div>
-                                        </div>
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                               <input oninput="validateMajor()" type="text" name="major" placeholder ="major" id = "majorID" class = "form-control form-control-user" required><div id="majorError" style="color: red; font-size:10px"></div>
-                                        </div>
-                                    </div>  
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                               <input oninput="validateSchool()" type="text" name="graduation_school" placeholder ="graduation school" id = "schoolID" class = "form-control form-control-user" required><div id="schoolError" style="color: red; font-size:10px"></div>
-                                        </div>
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                               <input type="date" name="grad-year" placeholder ="graduation year" id = "" class = "form-control form-control-user" required>
-                                        </div>
-                                    </div>  
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input type="password" name = "pass_word" placeholder = "password" id ="" class="form-control form-control-user" required><div id=""></div>
-                                        </div>
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                               <input type="text" name="employee_id" id="employeeID" class="form-control form-control-user" placeholder="employeID" required><div id="employeeIDError"></div>
-                                        </div>
-                                    </div> 
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input type="text" name="deptmnt_id" class="form-control form-control-user" placeholder="DepartmentID" required><div id=""></div>
-                                        </div>
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input  type="submit" name ="submit" value = "Register Account" id = "" class="btn btn-primary btn-user btn-block" required>
-                        
-                                        </div>
-                                    </div>       
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+            
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-1 text-gray-800"><?php echo $_SESSION['name']; ?></h1>
+                    <p class="mb-4">Creative and people-oriented <?php echo $_SESSION['major'];?> scientist with up to vast experience of working with startups
+                            </p>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <div class="col-lg-6">
+
+                            <!-- Overflow Hidden -->
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Education</h6>
                                 </div>
-                            </form>
-                    </div>        
-                </div>        
-            </div>        
-        </div>        
-    </div>
-</div>
-             <!-- /.container-fluid  </div> -->
-             
-<!-- End of Main Content -->
+                                <div class="card-body">
+                                    <h3><code>School Name:</code> <?php echo $_SESSION['school'];?></h3>
+                                     <h3><code>Qualification:</code> <?php echo $_SESSION['qualification'];?></h3>
+                                     <h3><code>Major:</code><?php echo $_SESSION['major'];?></h3>
+                                </div>
+                            </div>
 
+                            <!-- Progress Small -->
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Awards</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-1 small">Employee Of the month</div>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%"
+                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="mb-1 small">Honors</div>
+                                    <div class="progress progress-sm mb-2">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%"
+                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <!--Use the <code>.progress-sm</code> class along with <code>.progress</code>-->
+                                </div>
+                            </div>
 
-             </div>
-                <!-- End of Main Content -->
-       </div>
+                            <!-- Dropdown No Arrow -->
+                            <div class="card mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Nationality</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="dropdown no-arrow mb-4">
+                                       <h3><code>Birth Country</code><?php echo $_SESSION['birth_place']; ?></h3>
+                                       <h3><code>Current State</code><?php echo $_SESSION['state']; ?></h3>
+                                       <h3><code>Current City:</code><?php echo $_SESSION['city']; ?></h3>
+                                       <h3><code>Date of Birth:</code><?php echo $_SESSION['date_of_birth']; ?></h3>
+                                    </div>
+                                </div>
+                            </div>
 
-         </div>
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <!-- Roitation Utilities 
+                            <div class="card">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Rotation Utilities</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <div class="bg-primary text-white p-3 rotate-15 d-inline-block my-4">.rotate-15
+                                    </div>
+                                    <hr>
+                                    <div class="bg-primary text-white p-3 rotate-n-15 d-inline-block my-4">.rotate-n-15
+                                    </div>
+                                </div>
+                            </div>-->
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+           
+           
+
+        </div>
         <!-- End of Content Wrapper -->
 
     </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -490,11 +419,11 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../pages/login.php">Logout</a>
+                    <a class="btn btn-primary" href="login.php">Logout</a>
                 </div>
             </div>
         </div>
     </div>
-    <?php
-    include '../includes/footer.php';
-    ?>
+<?php
+include '../includes/footer.php';
+?>

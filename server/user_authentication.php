@@ -49,7 +49,7 @@ try
        }
        else {
         # Ordinary Employee Login, Employee dashboard to be Rendered
-        header("location:../pages/employee_dashboard.php");
+        header("location:../pages/person.php");
        }
     }
     else

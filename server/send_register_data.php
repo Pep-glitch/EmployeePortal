@@ -29,6 +29,8 @@
         $res->bindParam(':photo_file',$_REQUEST['photo_file']);
         try {
             $res->execute();
+            echo "Register Success";
+           
             //code...
         } catch (PDOExceptioin $e) {
             //throw $th;

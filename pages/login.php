@@ -33,18 +33,15 @@
                                         <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" required>
                                     </div>
                                     <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
+                                            <!--<div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck">
                                                 <label class="custom-control-label" for="customCheck">Remember
                                                     Me</label>
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <input type="submit" id="sub-btn" value="login"  name="login" class="btn btn-primary btn-user btn-block"> 
                                         <div class="text-center">
-                                        <a class="small" href="forgot_password.php">Forgot Password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register.php">Create an Account!</a>
+                                       <!-- <a class="small" href="forgot_password.php">Forgot Password?</a>-->
                                     </div>
                                     <hr>
                                     <?php
