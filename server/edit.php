@@ -1,11 +1,37 @@
 <?php
-include '../includes/header.php';
-require_once '../server/connect.php';
-session_start();
-
-?>
-
-     <body id="page-top">
+    include '../includes/header.php';
+    include 'connect.php';
+    session_start();
+    $name = $_SESSION['name'];
+    if(isset($_POST['update_employee']))
+    {
+        $fullname = $_POST['fullname'];
+        $position = $_POST['jobTitle'];
+        $city = $_POST['city'];
+        $department= $_POST['department'];
+        $empID = $_POST['employee_id'];
+        try {
+            $sql2 = "UPDATE employee_mgt_sys.employee SET emp_name=?, job_title=?, emp_city=?, department_name=? WHERE emp_id=? LIMIT 1" ;
+            $stmtR = $pdo->prepare($sql2)->execute(array($fullname,$position,$city,$department,$empID));
+        if($stmtR)
+        {
+            $_SESSION['message'] = "Updated Successfully";
+            header('Location: ../pages/admin_dashboard.php');
+        }
+        else
+        {
+            $_SESSION['message'] = "Not Updated";
+            header('Location: ../pages/admin_dashboard.php');
+        }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+  
+?>   
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <title>Edit Employee Details</title>
+ <body id="page-top">
     <div class="" id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
@@ -16,17 +42,15 @@ session_start();
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="../pages/admin_dashboard.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
-            <!--
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
                 Interface
             </div>
-            
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
@@ -35,35 +59,55 @@ session_start();
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Teams List:</h6>
-                        <a class="collapse-item" href="#">Alpha Team</a>
-                        <a class="collapse-item" href="#">Beta Team</a>
+                        <a class="collapse-item" href="#">Team One</a>
+                        <a class="collapse-item" href="#">Team Two</a>
                     </div>
                 </div>
             </li>-->
-            <!--<li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
-                     <span>Projects</span>-
+                    <span>Projects</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Ongoing Projects:</h6>
                         <?php
-                            $testID = $_SESSION['id'];
-                            $sql = "SELECT * FROM employee_mgt_sys.project_members pm JOIN employee_mgt_sys.projects p WHERE pm.projectID = p.projectID AND emp_id= '$testID' ";
-                            $stmt3 = $pdo->query($sql);
-                            while($row = $stmt3->fetch())
-                            {
-                                ?>
-                                    <a class="collapse-item" href="#"><?php echo $row['title'] ?></a>
-                                <?php
-                            }
-                        ?>
+                        $stmt = $pdo->query("SELECT * FROM employee_mgt_sys.projects");
+                        while($data = $stmt->fetch())
+                        {
+                            ?>
+                             <a onclick="hide()" class="bg-white py-2 collapse-item" href="" id="project-btn"><?php echo $data['title'];
+                            ?>
+                            </a>
+                            <?php
+                        }
+                        ?> 
                     </div>
                 </div>
-            </li>-->
+            </li>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Admin Panel</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Admin</h6>
+                        <!--<a class="collapse-item" href="../pages/login.php">Login</a>-->
+                        <a class="collapse-item" href="../pages/register.php">Register Employee</a>
+                        <!--<a class="collapse-item" href="../pages/forgot_password.php">Forgot Password</a>
+                        <div class="collapse-divider"></div>
+                        <h6 class="collapse-header">Other Pages:</h6>
+                        <a class="collapse-item" href="404.html">404 Page</a>
+                        <a class="collapse-item" href="blank.html">Blank Page</a>-->
+                    </div>
+                </div>
+            </li>
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
                 Addons
@@ -78,9 +122,9 @@ session_start();
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Account Details:</h6>
-                        <a class="collapse-item" href="../pages/person.php">Personal Information</a>
-                       <!-- <a class="collapse-item" href="#">Account Settings</a>
-                        <a class="collapse-item" href="#">Career Development</a>
+                        <a class="collapse-item" href="admin.php">Personal Information</a>
+                        <!--<a class="collapse-item" href="register.html">Education</a>-
+                        <a class="collapse-item" href="forgot-password.html">Professional Background</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">more:</h6>
                         <a class="collapse-item" href="404.html">404 Page</a>
@@ -98,11 +142,16 @@ session_start();
                     <i class="fas fa-fw fa-table"></i>
                     <span>Duties</span></a>
             </li>-->
+            <li class="nav-item active">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Employees</span></a>
+            </li>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-            <!--<li><button class="" id="" name=""><a href="#"></a>Sign out</button></li>-->
+            
         </ul>
         <div id="content-wrapper" class="d-flex flex-column">
            <div id="content">
@@ -123,7 +172,8 @@ session_start();
                         </div>
                     </form>-->
                     <ul class="navbar-nav ml-auto">
-                   <!-- <li class="nav-item dropdown no-arrow d-sm-none">
+                        <!--
+                    <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
@@ -148,7 +198,7 @@ session_start();
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
-                                Counter - Alerts 
+                                 Counter - Alerts 
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -192,7 +242,8 @@ session_start();
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
                         </li>-->
-                       <!-- <li class="nav-item dropdown no-arrow mx-1">
+                        <!--
+                        <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
@@ -261,9 +312,9 @@ session_start();
                          <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['name'] ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $name;?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="svg/undraw_profile.svg">
                             </a>
                              <!-- Dropdown - User Information -->
                              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -281,7 +332,7 @@ session_start();
                                     Activity Log
                                 </a>-->
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="../pages/login.php" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -290,117 +341,71 @@ session_start();
                     </ul>
                 </nav>
                 <!-- End of Topbar -->
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-            
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-1 text-gray-800"><?php echo $_SESSION['name']; ?></h1>
-                    <p class="mb-4">Creative and people-oriented <?php echo $_SESSION['major'];?> scientist with up to vast experience of working with startups
-                            </p>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <div class="col-lg-6">
-
-                            <!-- Overflow Hidden -->
-                            <div class="card mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Education</h6>
-                                </div>
-                                <div class="card-body">
-                                    <h3><code>School Name:</code> <?php echo $_SESSION['school'];?></h3>
-                                     <h3><code>Qualification:</code> <?php echo $_SESSION['qualification'];?></h3>
-                                     <h3><code>Major:</code><?php echo $_SESSION['major'];?></h3>
-                                </div>
-                            </div>
-
-                            <!-- Progress Small -->
-                            <div class="card mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Awards</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-1 small">Employee Of the month</div>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="mb-1 small">Honors</div>
-                                    <div class="progress progress-sm mb-2">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <!--Use the <code>.progress-sm</code> class along with <code>.progress</code>-->
-                                </div>
-                            </div>
-
-                            <!-- Dropdown No Arrow -->
-                            <div class="card mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Nationality</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="dropdown no-arrow mb-4">
-                                       <h3><code>Birth Country</code><?php echo $_SESSION['birth_place']; ?></h3>
-                                       <h3><code>Current State</code><?php echo $_SESSION['state']; ?></h3>
-                                       <h3><code>Current City:</code><?php echo $_SESSION['city']; ?></h3>
-                                       <h3><code>Date of Birth:</code><?php echo $_SESSION['date_of_birth']; ?></h3>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-6">
-
-                            <!-- Roitation Utilities 
-                            <div class="card">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Rotation Utilities</h6>
-                                </div>
-                                <div class="card-body text-center">
-                                    <div class="bg-primary text-white p-3 rotate-15 d-inline-block my-4">.rotate-15
-                                    </div>
-                                    <hr>
-                                    <div class="bg-primary text-white p-3 rotate-n-15 d-inline-block my-4">.rotate-n-15
-                                    </div>
-                                </div>
-                            </div>-->
-
-                        </div>
-
+                <div class="container">
+        <div class="row">
+            <div class="col-md-12 mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4> Edit & Update Employee Details
+                            <a href="index.php" class="btn btn-primary float-end">BACK</a>
+                        </h4>
                     </div>
+                    <div class="card-body">
+                        <?php
+                        if(isset($_POST['update_emp']))
+                        {
+                            $empID = $_POST['update_emp'];
 
+                            $sql = "SELECT * FROM employee_mgt_sys.employee WHERE emp_id=? LIMIT 1";
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->bindParam(1, $empID, PDO::PARAM_INT);
+                            $stmt->execute();
+
+                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                            ?>
+                            
+                            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+
+                                <input type="hidden" name="employee_id" value="<?=$row['emp_id'];?>">
+
+                                <div class="mb-3">
+                                    <label>Full Name</label>
+                                    <input type="text" name="fullname" value="<?=$row['emp_name'].' '.$row['lastname'];?>" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Position</label>
+                                    <input type="text" name="jobTitle" value="<?=$row['job_title'];?>" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label>City</label>
+                                    <input type="text" name="city" value="<?=$row['emp_city'];?>" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Department</label>
+                                    <input type="text" name="department" value="<?=$row['department_name'];?>" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" name="update_employee" class="btn btn-primary">Save Data</button>
+                                </div>
+                            </form>
+                            
+                            <?php
+                        }
+                        else
+                        {
+                            echo "<h5>No ID Found</h5>";
+                        }
+                        ?>
+                    </div>
                 </div>
-                <!-- /.container-fluid -->
-
             </div>
-            <!-- End of Main Content -->
-           
-           
-
         </div>
-        <!-- End of Content Wrapper -->
+    </div>
 
     </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -415,11 +420,12 @@ session_start();
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.php">Logout</a>
+                    <a class="btn btn-primary" href="../pages/login.php">Logout</a>
                 </div>
             </div>
         </div>
     </div>
-<?php
-include '../includes/footer.php';
-?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <?php
+    include '../includes/footer.php';
+    ?>

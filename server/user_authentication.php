@@ -1,19 +1,14 @@
 <?php
 #Database Credentials
 include '../includes/header.php';
-$servername = 'localhost';
-$username = 'root';
-$dbpassword ='';
-$dbname ='employee_mgt_sys';
-$conn = mysqli_connect($servername, $username, $dbpassword, $dbname);
+include 'connect.php';
 $email = $_POST['email'];
 $password = $_POST['password'];
 try
 {
     $sql = "SELECT * FROM employee_mgt_sys.employee WHERE (BINARY email= '$email') AND BINARY  pass_word ='$password' ";
-    $result = mysqli_query($conn,$sql);
-    $row = mysqli_fetch_assoc($result);
-    if(mysqli_num_rows($result)>0)
+    $result = $pdo->query($sql);
+    if($row=$result->fetch())
     {
         session_start();
         $_SESSION['id']=$row['emp_id'];
@@ -34,8 +29,6 @@ try
         $_SESSION['status'] = $row['marital_status'];
         $_SESSION['state'] = $row['emp_state'];
         $_SESSION['birth_place'] = $row['place_of_birth'];
-        #$_SESSION['birth_date'] = $row['date_'];
-
         session_commit();
        if (strcmp($row['user_role'],'Admin')==0) {
         # For Admin Login, Admin Dashboard to be Rendered

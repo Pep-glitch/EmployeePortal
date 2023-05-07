@@ -1,12 +1,7 @@
 <?php
     include '../includes/header.php';
+    require_once '../server/connect.php';
     session_start();
-    #$sessionID = $_SESSION['id'];
-    $servername = 'localhost';
-    $username = 'root';
-    $dbpassword ='';
-    $dbname ='employee_mgt_sys';
-    $conn = mysqli_connect($servername, $username, $dbpassword, $dbname);
     $name = $_SESSION['name'];
     
 ?>
@@ -54,22 +49,16 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Ongoing Projects:</h6>
                         <?php
-                        $projects_selection = "SELECT * FROM employee_mgt_sys.projects";
-                        $projects_result =mysqli_query($conn,$projects_selection);
-                        $project_row =mysqli_fetch_assoc($projects_result);
-                        if(mysqli_num_rows($projects_result)>0)
+                        $stmt = $pdo->query("SELECT * FROM employee_mgt_sys.projects");
+                        while($data = $stmt->fetch())
                         {
-                           while($project_row =mysqli_fetch_assoc($projects_result))
-                           {
                             ?>
-                            <a onclick="hide()" class="bg-white py-2 collapse-item" href="" id="project-btn"><?php echo $project_row['title'];
+                             <a onclick="hide()" class="bg-white py-2 collapse-item" href="" id="project-btn"><?php echo $data['title'];
                             ?>
                             </a>
                             <?php
-                           } 
                         }
-                        ?>
-                       
+                        ?> 
                     </div>
                 </div>
             </li>
@@ -344,44 +333,56 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Name</th>
                         <th>Position</th>
                         <th>City</th>
                         <th>Age</th>
                         <th>Start date</th>
                         <th>Department</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                     <?php
                           $list_sql = "SELECT * FROM employee_mgt_sys.employee";  
-                          $list_result = mysqli_query($conn,$list_sql);
-                          $list_row = mysqli_fetch_assoc($list_result);
-                        while($list_row = mysqli_fetch_assoc($list_result))
+                          $stmt2 = $pdo->query($list_sql);
+
+                        while($list_row = $stmt2->fetch())
                         {
                             ?>
+                            <th><?php echo $list_row['emp_id'] ?></th>
                             <td><?php echo $list_row['emp_name'].' '.$list_row['lastname']; ?></td>
                             <td><?php echo $list_row['job_title']; ?></td>
                             <td><?php echo $list_row['emp_city']; ?></td>
                             <td><?php echo $list_row['date_of_birth']; ?></td>
                             <td><?php echo $list_row['employment_day']; ?></td>
                             <td><?php echo $list_row['department_name']; ?></td>
+                            <form action="../server/edit.php" method="POST">
+                            <td><button type="submit" class="btn btn-success" name="update_emp" value="<?=$list_row['emp_id'] ?>"><?php echo "Edit"; ?></button></td>
+                            </form>
+                            <form action="../server/delete.php" method="POST">
+                            <td><button type="submit" name="delete_id" id="deleteUser_id" class="btn btn-danger" value="<?=$list_row['emp_id'] ?>"><?php echo "Del";?></button></td>
+                            </form>
                             </tr>
                             <?php
                 
                         }
                     ?>
-                   
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th>ID</th>
                         <th>Name</th>
                         <th>Position</th>
                         <th>Office</th>
                         <th>Age</th>
                         <th>Start date</th>
                         <th>Salary</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </tfoot>
             </table>

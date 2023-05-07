@@ -8,7 +8,7 @@
     $dbname ='employee_mgt_sys';
     $conn = mysqli_connect($servername, $username, $dbpassword, $dbname);
     $name = $_SESSION['name'];
-    
+    $firstnameError ="";
 ?>
  <body id="page-top">
     <div class="" id="wrapper">
@@ -341,17 +341,18 @@
                         <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Register Employee</h1>
                         </div>
-                        <form onsubmit="return formValidation()" action="../server/send_register_data.php" class="user" method = "POST">
+                        <!--  "<?php echo $_SERVER['PHP_SELF']; ?>" -->
+                        <form  onsubmit="return formValidation()" action="../server/send_register_data.php" class="user" method = "POST">
                                 <div class="form-group">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <!-- <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label for="photofile">Photo</label>
                                                 <input type="file" name="photo_file" placeholder ="photo" id ="photofile" class = "" oninput=""><div></div>
-                                        </div>
+                                        </div>-->
                                     <div class="form-group row">
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <input oninput="validateFirstname()" type="text" name="firstname" placeholder ="firstname" id = "firstnameID"   class = "form-control form-control-user"required>
-                                                <div id="firstnameError" style="color: red; font-size:10px"></div>
+                                                <div id="firstnameError" style="color: red; font-size:10px"><?php echo $firstnameError; ?></div>
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <input oninput="validateLastname()" type="text" name="lastname" placeholder ="lastname" id = "lastnameID" class = "form-control form-control-user" required>
@@ -369,14 +370,15 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="radio" name="gender" placeholder ="" id = "male" class = "" value="Male" checked>
-                                                <label for="male">Male</label>
-                                                <input type="radio" name="gender" placeholder ="" id = "female" class = "" value="Female">
-                                                <label for="female">Female</label>
+                                                <select name="gender" id="" class="form-select" aria-label="Default select example" required>
+                                                    <option value="Male" selected>Male</option>
+                                                    <option value="Female">Female</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
                                                 <br>
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0" >
-                                                 <input  type="text" name="height" placeholder ="height" id = "heightID" class = "form-control form-control-user" required><div id="heightError"></div>
+                                                 <input oninput="validateHeight()" type="text" name="height" placeholder ="height" id = "heightID" class = "form-control form-control-user" required><div id="heightError" style="color: red; font-size:10px" ></div>
                                             </div>
                                     </div>
                                     <div class="form-group row">
@@ -384,7 +386,13 @@
                                              <input oninput="validateEmail()" type="email" name="email" placeholder ="email" id = "emailID" class ="form-control form-control-user" required><div id="emailError" style="color: red; font-size:10px"></div>
                                         </div>
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                             <input oninput="validateStatus()" type="text" name="marital_status" placeholder ="marital-status" id = "statusID" class = "form-control form-control-user" required><div id="statusError" style="color: red; font-size:10px"></div>
+                                              <select name="marital_status" id="statusID" aria-label="Default select example" class="form-select" required>
+                                                <option value="Single" selected>Single</option>
+                                                <option value="Married">Married</option>
+                                                <option value="Divorced">Divorced</option>
+                                                <option value="Deceased">Widowed</option>
+                                              </select>
+                                             <!--<input oninput="validateStatus()" type="text" name="marital_status" placeholder ="marital-status" id = "statusID" class = "form-control form-control-user" required>--><div id="statusError" style="color: red; font-size:10px"></div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -408,12 +416,22 @@
                                               <input oninput="validateJob()" type="text" name="job_title" placeholder ="job title" id = "jobID" class = "form-control form-control-user" required><div id="jobError" style="color: red; font-size:10px"></div>
                                         </div>
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input oninput="validateRole()" type="text" name="user_role" placeholder ="Role" id="roleID" class = "form-control form-control-user" required><div id="roleError" style="color: red; font-size:10px"></div>
+                                              <select name="user_role" id="roleID" class="form-select" required>
+                                                <option value="User" selected>User</option>
+                                                <option value="Admin">Admin</option>
+                                              </select>
+                                              <div id="roleError" style="color: red; font-size:10px"></div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input type="text" name="department" placeholder ="department" id= "deptNameID" class = "form-control form-control-user" required><div id="deptNameError"></div>
+                                                <select name="department" id="deptNameID" class="form-select" aria-label="Default select example" required>
+                                                <option value="Sales" selected>Sales</option>
+                                                <option value="Technology">Technology</option>
+                                                <option value="Human Resource">Human Resource</option>
+                                                <option value="Operations">Operations</option>
+                                                </select>
+                                                <div id="deptNameError"></div>
                                         </div>
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                               <input type="date" id="" name="dateOfEmployement" class="form-control form-control-user" placeholder="Start Date" required>
@@ -445,7 +463,13 @@
                                     </div> 
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                              <input type="text" name="deptmnt_id" class="form-control form-control-user" placeholder="DepartmentID" required><div id=""></div>
+                                               <select name="deptmnt_id" id="deptID" class="form-select" aria-label="Default select example" required>
+                                                <option value="22349">22349</option>
+                                                <option value="00155">00155</option>
+                                                <option value="88011">88011</option>
+                                                <option value="66034">66034</option>
+                                               </select>
+                                              <div id=""></div>
                                         </div>
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                               <input  type="submit" name ="submit" value = "Register Account" id = "" class="btn btn-primary btn-user btn-block" required>

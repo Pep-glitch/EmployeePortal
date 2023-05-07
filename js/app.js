@@ -1,15 +1,20 @@
+ //For Select Options
+    document.getElementById('deptNameID').addEventListener("change", function ()
+    {
+    document.getElementById('deptID').selectedIndex = document.getElementById('deptNameID').selectedIndex;
+    }, false);
  //IDs for all input fields
  
  const  employeeID = document.getElementById('employeeID').value;
  const  addressID = document.getElementById('addressID').value;
  const  contact = document.getElementById('contactID').value;
- const  height = document.getElementById('heightID').value;
+ 
  //IDs for all errors
  
  const  employeeIDError = document.getElementById('employeeError');
  const  addressError = document.getElementById('addressError');
  const  contactError = document.getElementById('contactError');
- const  heightError = document.getElementById('heightError');
+
 function hide()
 {
     var x = document.getElementById("project-btn");
@@ -81,7 +86,7 @@ function validateSchool()
 {
   const school =document.getElementById('schoolID').value;
   const schoolError =document.getElementById('schoolError');
-  var validString = /^[a-zA-Z]+$/;
+  var validString = /^[a-zA-Z ]+$/;
   if(!school.match(validString))
     {
       schoolError.textContent ="Only Alphabet Allowed";
@@ -97,7 +102,7 @@ function validateJob()
 {
   const  jobTitle = document.getElementById('jobID').value;
   const  jobTitleError = document.getElementById('jobError');
-  var validString = /^[a-zA-Z]+$/;
+  var validString = /^[a-zA-Z ]+$/;
   if(!jobTitle.match(validString))
     {
       jobTitleError.textContent ="Only Alphabet Allowed";
@@ -113,7 +118,7 @@ function validateRole()
 {
   const  role = document.getElementById('roleID').value;
   const  roleError = document.getElementById('roleError');
-  var validString = /^[a-zA-Z]+$/;
+  var validString = /^[a-zA-Z ]+$/;
   if(!role.match(validString))
   {
     roleError.textContent ="Only Alphabet Allowed";
@@ -129,7 +134,7 @@ function validateMajor()
 {
   const  major = document.getElementById('majorID').value;
   const  majorError = document.getElementById('majorError');
-  var validString = /^[a-zA-Z]+$/;
+  var validString = /^[a-zA-Z ]+$/;
   if(!major.match(validString))
   {
     majorError.textContent ="Only Alphabet Allowed";
@@ -145,7 +150,7 @@ function validateEducation()
 {
   const  education = document.getElementById('educationID').value;
   const  educationError = document.getElementById('educationError');
-  var validString = /^[a-zA-Z]+$/;
+  var validString = /^[a-zA-Z ]+$/;
   if(!education.match(validString))
     {
       educationError.textContent ="Only Alphabet Allowed";
@@ -161,7 +166,7 @@ function validateBirth()
 {
   const  placeOfBirth = document.getElementById('birthID').value;
   const  placeOfBirthError = document.getElementById('birthError');
-  var validString = /^[a-zA-Z]+$/;
+  var validString = /^[a-zA-Z ]+$/;
   if(!placeOfBirth.match(validString))
   {
     placeOfBirthError.textContent ="Only Alphabet Allowed";
@@ -177,7 +182,7 @@ function validateState()
 {
   const  employeeState = document.getElementById('stateID').value;
   const  employeeStateError = document.getElementById('stateError');
-  var validString = /^[a-zA-Z]+$/;
+  var validString = /^[a-zA-Z ]+$/;
   if(!employeeState.match(validString))
     {
       employeeStateError.textContent ="Only Alphabet Allowed";
@@ -193,7 +198,7 @@ function validateCity()
 {
   const  employeeCity = document.getElementById('cityID').value;
   const  employeeCityError = document.getElementById('cityError');
-  var validString = /^[a-zA-Z]+$/;
+  var validString = /^[a-zA-Z ]+$/;
   if(!employeeCity.match(validString))
   {
     employeeCityError.textContent ="Only Alphabet Allowed";
@@ -218,6 +223,22 @@ function validateEmail()
     else
     {
       emailError.textContent ="";
-    return true; 
+      return true; 
     }
+}
+function validateHeight()
+{
+  const  height = document.getElementById('heightID').value;
+  const  heightError = document.getElementById('heightError');
+  var validNumber = "/^[0-9]*$/";
+  if(!height.match(validNumber))
+  {
+    heightError.textContent ="";
+    return true;
+  }
+  else
+  {
+    heightError.textContent = "Only Numbers";
+    return false;
+  }
 }
