@@ -1,11 +1,7 @@
 <?php
 include '../includes/header.php';
+require_once '../server/connect.php';
 session_start();
-$servername = 'localhost';
-$username = 'root';
-$dbpassword ='';
-$dbname ='employee_mgt_sys';
-$conn = mysqli_connect($servername, $username, $dbpassword, $dbname);
 ?>
 
      <body id="page-top">
@@ -56,9 +52,8 @@ $conn = mysqli_connect($servername, $username, $dbpassword, $dbname);
                         <?php
                             $testID = $_SESSION['id'];
                             $sql = "SELECT * FROM employee_mgt_sys.project_members pm JOIN employee_mgt_sys.projects p WHERE pm.projectID = p.projectID AND emp_id= '$testID' ";
-                            $result = mysqli_query($conn,$sql);
-                            $row = mysqli_fetch_assoc($result);
-                            while($row =mysqli_fetch_assoc($result))
+                            $result=$pdo->query($sql);
+                            while($row =$result->fetch())
                             {
                                 ?>
                                     <a class="collapse-item" href="#"><?php echo $row['title'] ?></a>
@@ -336,15 +331,15 @@ $conn = mysqli_connect($servername, $username, $dbpassword, $dbname);
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-1 small">Employee Of the month</div>
-                                    <div class="progress mb-4">
+                                    <!--<div class="progress mb-4">
                                         <div class="progress-bar" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
+                                    </div>-->
                                     <div class="mb-1 small">Honors</div>
-                                    <div class="progress progress-sm mb-2">
+                                   <!-- <div class="progress progress-sm mb-2">
                                         <div class="progress-bar" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
+                                    </div>-->
                                     <!--Use the <code>.progress-sm</code> class along with <code>.progress</code>-->
                                 </div>
                             </div>

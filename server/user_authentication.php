@@ -47,7 +47,7 @@ try
     }
     else
     {
-        //header("location:../pages/login.php");  
+       
         ?>
         <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -65,6 +65,7 @@ try
         </div>
     </div>
     <?php
+     //header("location:../pages/login.php");  
     }
 }
 catch(\Exception $e)

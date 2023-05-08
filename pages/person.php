@@ -326,21 +326,21 @@ session_start();
                             </div>
 
                             <!-- Progress Small -->
-                            <div class="card mb-4">
+                            <div class="carld mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Awards</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-1 small">Employee Of the month</div>
-                                    <div class="progress mb-4">
+                                    <!--<div class="progress mb-4">
                                         <div class="progress-bar" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
+                                    </div>-->
                                     <div class="mb-1 small">Honors</div>
-                                    <div class="progress progress-sm mb-2">
+                                   <!-- <div class="progress progress-sm mb-2">
                                         <div class="progress-bar" role="progressbar" style="width: 75%"
                                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
+                                    </div>-->
                                     <!--Use the <code>.progress-sm</code> class along with <code>.progress</code>-->
                                 </div>
                             </div>

@@ -6,7 +6,7 @@
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }catch(PDOExceptioin $e)
     {
-        echo "ERROR: Couldn't Connect".$e-getMessage();
+        echo "ERROR: Couldn't Connect".$e->getMessage();
     }
 
 ?>

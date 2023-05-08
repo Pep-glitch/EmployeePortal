@@ -408,7 +408,7 @@
                                             <input  type="text" name="address" placeholder ="address" id ="addressID" class = "form-control form-control-user" required><div id="addressError"></div>
                                         </div>
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                             <input oninput="" type="text" name="contact" placeholder ="mobile number" id= "contactID" class = "form-control form-control-user" required><div id="contactError"></div>
+                                             <input oninput="validateContact()" type="text" name="contact" placeholder ="mobile number" id= "contactID" class = "form-control form-control-user" required><div id="contactError" ></div>
                                         </div>
                                     </div>
                                     <div class="form-group row">

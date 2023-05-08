@@ -230,15 +230,34 @@ function validateHeight()
 {
   const  height = document.getElementById('heightID').value;
   const  heightError = document.getElementById('heightError');
-  var validNumber = "/^[0-9]*$/";
+  var validNumber = /^[0-9]+$/;
   if(!height.match(validNumber))
   {
-    heightError.textContent ="";
-    return true;
+    heightError.textContent ="Only Numbers";
+    return false;
   }
   else
   {
-    heightError.textContent = "Only Numbers";
+    heightError.textContent = "";
+    return true;
+  }
+}
+
+
+function validateContact()
+{
+  const  contact = document.getElementById('contactID').value;
+  const  contactError = document.getElementById('contactError');
+  var validContact = /^[0-9]+$/;
+  if(!contact.match(validContact))
+  {
+    contactError.textContent ="Only Numbers";
     return false;
   }
+  else
+  {
+    contactError.textContent = "";
+    return true;
+  }
+
 }

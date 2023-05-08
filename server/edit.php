@@ -15,13 +15,11 @@
             $stmtR = $pdo->prepare($sql2)->execute(array($fullname,$position,$city,$department,$empID));
         if($stmtR)
         {
-            $_SESSION['message'] = "Updated Successfully";
-            header('Location: ../pages/admin_dashboard.php');
+            header('Location: ../pages/admin_dashboard.php? msg =Updated Successfully');
         }
         else
         {
-            $_SESSION['message'] = "Not Updated";
-            header('Location: ../pages/admin_dashboard.php');
+            header('Location: ../pages/admin_dashboard.php? msg=Not Updated');
         }
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -346,9 +344,7 @@
             <div class="col-md-12 mt-4">
                 <div class="card">
                     <div class="card-header">
-                        <h4> Edit & Update Employee Details
-                            <a href="index.php" class="btn btn-primary float-end">BACK</a>
-                        </h4>
+                        <h4> Edit & Update Employee Details </h4>
                     </div>
                     <div class="card-body">
                         <?php
@@ -414,7 +410,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
+                        <span aria-hidden="true"></span>
                     </button>
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>

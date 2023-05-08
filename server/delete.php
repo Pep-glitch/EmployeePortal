@@ -11,7 +11,7 @@
                 $res =$stmt->execute();
             if($res)
                 {
-                    header('location: ../pages/admin_dashboard.php');
+                    header('location: ../pages/admin_dashboard.php? msg=Employee Deleted');
                 }
             else{}
         }
